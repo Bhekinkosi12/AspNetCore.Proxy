@@ -37,6 +37,8 @@ namespace AspNetCore.Proxy
                     else
                         throw new InvalidOperationException("Only forwarded addresses starting with 'http://' or 'https://' are supported for HTTP requests.");
                 }
+                
+                
 
                 var proxiedRequest = context.CreateProxiedHttpRequest(uri, options?.ShouldAddForwardedHeaders ?? true);
 
@@ -101,6 +103,8 @@ namespace AspNetCore.Proxy
                 if (!requestMessage.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray()))
                     requestMessage.Content?.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
             }
+            
+            
 
             // Add forwarded headers.
             if(shouldAddForwardedHeaders)
@@ -119,6 +123,7 @@ namespace AspNetCore.Proxy
             return httpClient.SendAsync(message, HttpCompletionOption.ResponseHeadersRead, context.RequestAborted);
         }
 
+        
         private static Task WriteProxiedHttpResponseAsync(this HttpContext context, HttpResponseMessage responseMessage)
         {
             var response = context.Response;
